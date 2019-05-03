@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title *ngIf="!showSearchBar">
+      Ionic Blank
+    </ion-title>
+    <!-- <ion-searchbar *ngIf="showSearchBar" showCancelButton="true" (ionCancel)="showSearchBar = false" (input)="getItems($event)">   </ion-searchbar>
+      <ion-buttons end > 
+        <button ion-button icon-only  *ngIf="!showSearchBar" (click)="showSearchBar = true">
+          <ion-icon slot="start" name="search"></ion-icon>
+        </button>
+      </ion-buttons> -->
+      <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="setFilteredItems()" (ionClear)="resetChanges()"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+ 
+	<ion-list  *ngIf="datas" [virtualScroll] = "datas" [approxItemHeight]= "'17px'">
+    
+        <ion-item *virtualItem= "let data" (click)="onClick(data.alpha2Code)">
+       
+          <ion-avatar item-start>
+                 <img-loader [src]= "data.flag" useImg></img-loader>
+            </ion-avatar>
+            <h2><b>{{data.name}}</b></h2>
+            <h3>{{data.capital}}</h3>
+            <h3>{{data.region}}</h3>
+            
+          
+    </ion-item>
+	</ion-list>
+ 
+	<ion-list *ngIf='!datas?.length'>
+		<ion-item *ngFor='let abc of xyz' class='skeleton'>
+      
+      <img>
+      <h2></h2>
+      <h3></h3>
+      <h3></h3>
+	
+    </ion-item>
+    
+
+    
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
